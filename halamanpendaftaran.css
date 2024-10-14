@@ -25,6 +25,17 @@ h2 {
   line-height: 30px;
 }
 
+form,
+form label,
+form input,
+form select,
+form button,
+form p {
+  font-family: "Nokora";
+  font-size: 18px;
+  line-height: 30px;
+}
+
 body {
   font-family: "Nokora", sans-serif;
   font-size: 18px;
@@ -93,93 +104,26 @@ nav {
 
 /* navbar */
 
-.about-section,
-.services-section,
-.whysection {
-  padding: 40px 20px;
-  text-align: center;
+/*Button Form*/
+
+.custom-input {
+  width: 975px;
+  height: 50px;
+  border-radius: 10px !important;
+  border: 2px solid #505050 !important ; /* Menambahkan border tebal */
+  background-color: #f0f0f0 !important; /* Mengubah background color menjadi abu-abu terang */
 }
 
-.solutions-section {
-  padding: 40px 20px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-bottom: 100px;
+.buttonform {
+  background-color: #6d2932;
+  border-radius: 40px;
 }
 
-.about-section .intro {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 40px;
+.buttonform:hover {
+  background-color: #49191f;
+  color: #e2e2e2;
 }
-
-.about-section .intro-text {
-  width: 60%;
-  margin-right: 40px;
-  text-align: end;
-}
-
-.about-section .intro-image img {
-  margin-left: 100px;
-}
-
-.imgabout {
-  width: 500px;
-  height: 500px;
-}
-
-.services-section .intro {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 40px;
-}
-
-.services-section .intro-text {
-  width: 50%;
-  margin-left: 40px;
-  text-align: start;
-}
-
-.services-section .intro-image img {
-  margin-right: 100px;
-}
-
-.whysection .intro {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 40px;
-}
-
-.whysection .intro-text {
-  width: 60%;
-  margin-right: 40px;
-  text-align: end;
-}
-
-.whysection .intro-image {
-  margin-left: 100px;
-}
-
-.solutions-section .intro {
-  width: 60%;
-  margin: 0 auto;
-  text-align: start;
-}
-
-.solutions-section .intro2 {
-  width: 40%;
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 120px;
-}
-
-/* css isi halaman */
+/*Button Form*/
 
 /* footer */
 .footer {
