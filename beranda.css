@@ -1,0 +1,481 @@
+/* navbar */
+nav {
+    background-color: #FFF;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar-brand img{
+    width: 70px;
+    height: auto;
+}
+
+.nav-link .nav-icon:hover {
+    color: #6D2932 !important;
+}
+
+.sosmed {
+    display: flex;
+    gap: 15px;
+}
+
+.navbar-nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-link {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 16px;
+    line-height: normal;
+    color: black;
+}
+
+.nav-item .nav-link {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.nav-item a {
+    text-decoration: none;
+    border-bottom: 4px solid transparent;
+    transition: border-bottom 0.3s;
+}
+
+.nav-item a:hover,.nav-item a:focus {
+    border-bottom: 4px solid #6D2932;
+}
+
+@media (max-width: 992px) {
+    .navbar-nav, .sosmed {
+        margin-top: 70px;
+    }
+}
+
+/* Hero page */
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
+    margin-bottom: 30px;
+}
+
+.hero_group {
+    margin-top: 170px;
+    margin-bottom: 70px;
+}
+
+.hero img {
+    width: 100%;
+    max-width: 552px;
+    height: auto;
+}
+
+
+.hero_group h1 {
+    font-family: 'Nokora', sans-serif;
+    font-size: 60px;
+    font-weight: 700;
+    width: 605px;
+    margin-top: 30px;
+}
+
+.hero_group h1 span {
+    text-decoration: underline #fcad67;
+}
+
+.hero-button {
+    padding: 14px 38px;
+    border-radius: 40px;
+    border: none;
+    background: #6D2932;
+    color: white;
+    text-align: center;
+    font-family: 'Nokora', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    pointer-events: auto;
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+.hero-button:hover {
+    background: #450f16;
+}
+
+/* Section 2 Keuntungan */
+.keuntungan {
+    background: #F9EBD9;
+    text-align: center;
+}
+
+.keuntungan h2 {
+    text-align: center;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 32px;
+    font-weight: 400;
+    padding-top: 70px;
+    padding-bottom: 51px;
+}
+
+.keuntungan-group2 {
+    text-align: center;
+}
+
+.keuntungan-group2 img {
+    width: 54px;
+    height: 54px;
+}
+
+.keuntungan-group2 p {
+    color: #5E5C5C;
+    font-family: 'Nokora', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 30px;
+    padding-top: 30px;
+}
+
+.keuntungan-group {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 90px;
+    margin: 0px auto;
+    max-width: 1124px;
+    padding-left: 20px;
+}
+
+.keuntungan-button {
+    padding: 14px 38px;
+    border-radius: 40px;
+    border: none;
+    background: #6D2932;
+    color: white;
+    font-family: 'Nokora', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    pointer-events: auto;
+    margin: 30px 0px 70px 0px;
+}
+
+.keuntungan-button:hover {
+    background: #450f16;
+}
+
+/* Bazar saat ini */
+.latest-events {
+    margin: 90px 0px;
+}
+
+.latest-events-container {
+    text-align: center;
+    position: relative;
+}
+
+.latest-events-image{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    margin-bottom: 30px;
+    margin-top: 70px;
+}
+
+.latest-events img{
+    width: 100%;
+    max-width: 1052px;
+    height: auto;
+    border-radius: 20px;
+}
+
+.latest-events img:hover {
+    filter: brightness(70%);
+    transition: 0.2s;
+}
+
+.latest-events-button {
+    padding: 14px 38px;
+    border-radius: 40px;
+    border: none;
+    background: #6D2932;
+    color: white;
+    text-align: center;
+    font-family: 'Nokora', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    pointer-events: auto;
+    margin-top: 0px;
+    cursor: pointer;
+}
+
+.latest-events-button:hover {
+    background: #450f16;
+}
+
+/* Bazar yang akan datang */
+.list-bazar {
+    margin: 90px 0px;
+}
+
+.event-group img {
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+    object-fit: cover;
+}
+
+.event-group img:hover {
+    filter: brightness(70%);
+    transition: 0.2s;
+}
+
+h2 {
+    color: #000;
+    text-align: center;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 30px;
+    margin: 78px 0;
+}
+
+h2 span {
+    text-decoration: underline #fcad67;
+}
+
+.bazar-group {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 0 auto;
+    margin-top: 70px;
+    max-width: 1124px;
+}
+
+.event-group {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.event-group p {
+    color: #5E5C5C;
+    font-family: 'Nokora', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 30px;
+}
+
+.event-group .date {
+    color: #B5B5B5;
+    font-family: 'Nokora', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 30px;
+    display: flex; 
+    align-items: center;
+}
+
+.event-group a {
+    font-family: 'Nokora', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 30px;
+    padding-bottom: 8px;
+    pointer-events: auto;
+    text-decoration: none;
+    color: #000;
+}
+
+.event-group a:hover {
+    color: #C7B7A3;
+}
+
+.bazar-button {
+    text-align: center;
+}
+
+/* footer */
+.footer{
+    background-color: #f1e2ce;
+    display: flex;
+    border-radius: 30px;
+    margin: 0px 54px;
+    margin-top: 70px;
+}
+
+.items1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.items1 img{
+    width: 200px;
+    height: auto;
+}
+
+.footer-group{
+    margin: 53px auto;
+    max-width: 1124px;
+}
+
+.footer-group p{
+    color: #000000;
+    text-align: center;
+    font-family: 'Nokora';
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 30px;
+}
+
+.footer-group h6{
+    font-family: 'Nokora';
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    color: #6D2932;
+}
+
+.footer-items li {
+    margin-top: 28px;
+}
+
+.footer-items a{
+    color: #000000;
+    font-family: 'Nokora';
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    text-decoration: none;
+}
+
+.footer-items a:hover{
+    color: #C96D00;
+}
+
+.social-media-icons {
+    display: flex;
+    justify-content: center;
+}
+
+.social-media-icons a {
+    margin-top: 28px;
+    margin-right: 20px;
+}
+
+.nav-link .nav-icon:hover{
+    color: #C96D00 !important;
+}
+
+.items2{
+    display: flex;
+    gap: 115px;
+    margin-left: -20px;
+    margin-top: 80px;
+}
+
+.items2 .about{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 379px;
+}
+
+.general{
+    list-style-type: none;
+}
+
+.copyright p{
+    color: #000;
+    font-family: 'Nokora';
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+    margin: 20px;
+}
+
+@media (max-width: 430px){
+    .footer{
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        margin: 0px 20px;
+    }
+
+    .items1{
+        width: 279px;
+    }
+
+    .items1 img{
+        width: 85%;
+        height: auto;
+    }
+
+    .items2{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 60px;
+        margin-left: 100px;
+        margin-top: 0px;
+    }
+
+    .footer-items{
+        text-align: center;
+    }
+
+    .social-media-icons a {
+        margin: 10px;
+    }
+
+    .footer-group{
+        margin: 43px auto;
+    }
+}
+
+@media (min-width: 416px) and (max-width: 885px){
+    .footer{
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        margin: 0px 40px;
+    }
+
+    .items1{
+        width: 279px;
+    }
+
+    .items1 img{
+        width: 85%;
+        height: auto;
+    }
+
+    .items2{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 60px;
+        margin-left: 100px;
+        margin-top: 0px;
+    }
+
+    .footer-items{
+        text-align: center;
+    }
+
+    .social-media-icons a {
+        margin: 10px;
+    }
+
+    .footer-group{
+        margin: 43px auto;
+    }
+}
