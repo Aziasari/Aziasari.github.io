@@ -28,11 +28,11 @@ nav {
     justify-content: center;
 }
 
-.nav-link {
+.navbar-nav .nav-link {
     font-family: 'Fredoka', sans-serif;
-    font-size: 16px;
+    font-size: 20px;
     line-height: normal;
-    color: black;
+    color: rgb(105, 104, 104);
 }
 
 .nav-item .nav-link {
@@ -66,7 +66,7 @@ nav {
 }
 
 .hero_group {
-    margin-top: 170px;
+    margin-top: 160px;
     margin-bottom: 70px;
 }
 
@@ -79,7 +79,7 @@ nav {
 
 .hero_group h1 {
     font-family: 'Nokora', sans-serif;
-    font-size: 60px;
+    font-size: 56px;
     font-weight: 700;
     width: 605px;
     margin-top: 30px;
@@ -128,14 +128,14 @@ nav {
 }
 
 .keuntungan-group2 img {
-    width: 54px;
-    height: 54px;
+    width: 58px;
+    height: auto;
 }
 
 .keuntungan-group2 p {
     color: #5E5C5C;
     font-family: 'Nokora', sans-serif;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
     line-height: 30px;
     padding-top: 30px;
@@ -143,11 +143,11 @@ nav {
 
 .keuntungan-group {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     gap: 90px;
     margin: 0px auto;
     max-width: 1124px;
-    padding-left: 20px;
+    padding-right: 40px;
 }
 
 .keuntungan-button {
@@ -264,11 +264,12 @@ h2 span {
 }
 
 .event-group p {
-    color: #5E5C5C;
+    color: #6f6d6d;
     font-family: 'Nokora', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 20px;
+    font-weight: 400;
     line-height: 30px;
+    margin-top: 16px;
 }
 
 .event-group .date {
@@ -329,28 +330,28 @@ h2 span {
     color: #000000;
     text-align: center;
     font-family: 'Nokora';
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 400;
     line-height: 30px;
 }
 
 .footer-group h6{
     font-family: 'Nokora';
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 400;
     line-height: 20px;
     color: #6D2932;
 }
 
 .footer-items li {
-    margin-top: 28px;
+    margin-top: 12px;
 }
 
 .footer-items a{
     color: #000000;
     font-family: 'Nokora';
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 400;
     line-height: 20px;
     text-decoration: none;
 }
