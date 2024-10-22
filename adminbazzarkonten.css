@@ -218,3 +218,10 @@ nav {
 .footernote {
     color: #4a3f35;
 }
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+    font-size: 0.8em;
+}
