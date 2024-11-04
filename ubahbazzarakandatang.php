@@ -1,42 +1,59 @@
 <?php
 require 'koneksi.php';
 
-// Define the upload function first
+$bazar_id = null;
+$bazar = null;
+
+// Cek apakah ada bazar_id di URL untuk mengedit
+if (isset($_GET['bazar_id'])) {
+    $bazar_id = $_GET['bazar_id'];
+    // Query untuk mendapatkan detail bazar berdasarkan bazar_id
+    $query = "SELECT * FROM bazar_akan_datang WHERE bazar_id = $bazar_id";
+    $result = mysqli_query($conn, $query);
+    $bazar = mysqli_fetch_assoc($result);
+}
+
 function upload()
 {
+
     $namafile = $_FILES['gambar']['name'];
     $ukuranfile = $_FILES['gambar']['size'];
     $error = $_FILES['gambar']['error'];
     $tmpname = $_FILES['gambar']['tmp_name'];
 
-    // Check if a file was uploaded
+    //cek apakah ada file diupload
+
     if ($error === 4) {
         echo "<script>
-              alert('Pilih gambar terlebih dahulu');
-              </script>";
+          alert('Pilih gambar terlebih dahulu');
+          </script>";
         return false;
     }
 
-    // Check if the uploaded file is an image
+    //cek apakah yang diupload itu gambar atau bukan
+
     $ekstensigambarvalid = ['jpg', 'jpeg', 'png'];
     $ekstensigambar = explode('.', $namafile);
     $ekstensigambar = strtolower(end($ekstensigambar));
     if (!in_array($ekstensigambar, $ekstensigambarvalid)) {
         echo "<script>
-              alert('Yang anda upload bukan gambar');
-              </script>";
+        alert('Yang anda upload bukan gambar');
+        </script>";
         return false;
     }
 
-    // Check the size of the uploaded image
+    // cek ukuran gambar
+
     if ($ukuranfile > 1000000) {
         echo "<script>
-              alert('Ukuran gambar terlalu besar, maksimum 1MB');
-              </script>";
+        alert('Yang anda upload bukan gambar');
+        </script>";
         return false;
     }
 
-    // Generate a new file name and upload the file
+    // lolos pengecakan gambar siap diubload
+    //generate nama gambar baru
+
     $namafilebaru = uniqid();
     $namafilebaru .= '.';
     $namafilebaru .= $ekstensigambar;
@@ -46,17 +63,18 @@ function upload()
     return $namafilebaru;
 }
 
+// Proses update data
 if (isset($_POST["submit"])) {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        var_dump($_POST);
         $nama_kegiatan_bazzar = $_POST['nama_kegiatan_bazzar'];
         $tanggal_bazzar = $_POST['tanggal_bazzar'];
         $deskripsi_kegiatan = $_POST['deskripsi_kegiatan'];
+        $gambar_lama = $_POST['gambarlama'];
 
         // Upload gambar terlebih dahulu
-        $gambar = upload();
+        $gambar = upload(); // Fungsi upload harus didefinisikan sebelumnya
         if (!$gambar) {
-            return false;
+            $gambar = $gambar_lama; // Jika tidak ada gambar baru, gunakan gambar lama
         }
 
         // Validate required fields
@@ -68,19 +86,25 @@ if (isset($_POST["submit"])) {
                 </script>
                ";
         } else {
-            $sql = "INSERT INTO bazar_akan_datang (nama_bazar, tanggal, deskripsi, gambar_bazar) VALUES ('$nama_kegiatan_bazzar', '$tanggal_bazzar', '$deskripsi_kegiatan', '$gambar')";
+            // Update query
+            $sql = "UPDATE bazar_akan_datang SET 
+                        nama_bazar = '$nama_kegiatan_bazzar', 
+                        tanggal = '$tanggal_bazzar', 
+                        deskripsi = '$deskripsi_kegiatan', 
+                        gambar_bazar = '$gambar' 
+                    WHERE bazar_id = $bazar_id";
 
             if ($conn->query($sql) === TRUE) {
                 echo "
                 <script>
-                   alert('Data berhasil ditambahkan');
-                   document.location.href = 'index.php';
+                   alert('Data berhasil diupdate');
+                   document.location.href = 'adminplh.php';
                 </script>
                ";
             } else {
                 echo "
                 <script>
-                   alert('Data gagal ditambahkan');
+                   alert('Data gagal diupdate');
                    document.location.href = 'adminbazarakandatang.php';
                 </script>
                ";
@@ -99,8 +123,6 @@ if (isset($_POST["submit"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="adminbazzarkonten.css" />
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Nokora:wght@700&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@500&family=Jost:wght@400;700&family=Quicksand:wght@300;600&family=Roboto:wght@300;500&family=Shantell+Sans:wght@500&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Oleo+Script:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
     <title>Admin Dashboard</title>
@@ -147,7 +169,6 @@ if (isset($_POST["submit"])) {
     </nav>
     <!-- Navbar -->
 
-    <!-- Page Title -->
     <div class="adminpage">
         <a href="adminplh.html">Kembali</a>
     </div>
@@ -156,70 +177,48 @@ if (isset($_POST["submit"])) {
         <h1>Admin</h1>
     </div>
 
-    <!-- Admin Container -->
     <div class="container">
-        <div class="nantab">
-            <ul>
-                <li>
-                    <a href="adminsatini.html"> Input Bazar Saat Ini</a>
-                </li>
-                <li style="background-color: rgb(235, 235, 235)">
-                    <a href="#">Input Bazar yang akan datang</a>
-                </li>
-                <li>
-                    <a href="pelaporan.php">Pelaporan</a>
-                </li>
-            </ul>
-        </div>
-        <!-- Nav tabs -->
+        <h2 style="margin-top: 50px" class="text-center mb-4">
+            Input Bazar yang akan datang
+        </h2>
+        <form action="" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="gambarlama" value="<?php echo $bazar['gambar_bazar']; ?>">
+            <input type="hidden" name="id" value="<?php echo $bazar_id; ?>">
+            <!-- Nama Kegiatan Bazar -->
+            <div class="mb-3">
+                <label for="namaBazar" class="form-label">Nama Kegiatan Bazar</label>
+                <input type="text" class="form-control" id="namaBazar" placeholder="Masukkan Nama Kegiatan Bazar" name="nama_kegiatan_bazzar" value="<?php echo htmlspecialchars($bazar['nama_bazar']); ?>" required />
+            </div>
 
-        <!-- Tab content -->
-        <div class="tab-content" id="myTabContent">
-            <!-- Form Section -->
-            <h2 style="margin-top: 50px" class="text-center mb-4">
-                Input Bazar yang akan datang
-            </h2>
-            <form action="" method="post" enctype="multipart/form-data">
-                <!-- Nama Kegiatan Bazar -->
-                <div class="mb-3">
-                    <label for="namaBazar" class="form-label">Nama Kegiatan Bazar</label>
-                    <input type="text" class="form-control" id="namaBazar" placeholder="Masukkan Nama Kegiatan Bazar" name="nama_kegiatan_bazzar" />
-                </div>
+            <!-- Tanggal Bazar -->
+            <div class="mb-3">
+                <label for="tanggalBazar" class="form-label">Tanggal Bazar</label>
+                <input type="date" class="form-control" id="tanggalBazar" name="tanggal_bazzar" value="<?php echo htmlspecialchars($bazar['tanggal']); ?>" required />
+            </div>
 
-                <!-- Tanggal Bazar -->
-                <div class="mb-3">
-                    <label for="tanggalBazar" class="form-label">Tanggal Bazar</label>
-                    <input type="date" class="form-control" id="tanggalBazar" placeholder="Contoh: 20 Mei 2024" name="tanggal_bazzar" />
-                </div>
+            <!-- Deskripsi Kegiatan -->
+            <div class="mb-3">
+                <label for="deskripsiKegiatan" class="form-label">Deskripsi Kegiatan</label>
+                <textarea id="deskripsiKegiatan" class="form-control" rows="10" name="deskripsi_kegiatan" required><?php echo htmlspecialchars($bazar['deskripsi']); ?></textarea>
+            </div>
 
-                <!-- Deskripsi Kegiatan -->
-                <div class="mb-3">
-                    <label for="deskripsiKegiatan" class="form-label">Deskripsi Kegiatan</label>
-                    <textarea id="deskripsiKegiatan" class="form-control" rows="10" placeholder="Masukkan Deskripsi Singkat Kegiatan" name="deskripsi_kegiatan"></textarea>
-                </div>
+            <!-- Tambahkan Gambar -->
+            <div class="mb-3">
+                <label for="gambarBazar" class="form-label">Tambahkan Gambar</label>
+                <img id="preview" src="<?php echo htmlspecialchars($bazar['gambar_bazar']); ?>" width="300" alt="" />
+                <input type="file" class="form-control d-none" id="gambarBazar" name="gambar" onchange="previewImage(event)" />
+                <button type="button" class="btnconfirm" onclick="document.getElementById('gambarBazar').click();">
+                    Pilih Gambar
+                </button>
+            </div>
 
-                <!-- Tambahkan Gambar -->
-                <div class="mb-3">
-                    <label for="gambarBazar" class="form-label">Tambahkan Gambar</label>
-                    <img id="preview" src="" width="300" alt="" />
-                    <input type="file" class="form-control d-none" id="gambarBazar" name="gambar" onchange="previewImage(event)" />
-                    <button type="button" class="btnconfirm" onclick="document.getElementById('gambarBazar').click();">
-                        Pilih Gambar
-                    </button>
-                </div>
-
-                <div class="text-center">
-                    <button
-                        type="submit" name="submit"
-                        class="text-white rounded-md py-2 px-4 btnsimpan" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        Simpan
-                    </button>
-                </div>
-            </form>
-        </div>
-        <!-- Tab content -->
+            <div class="text-center">
+                <button type="submit" name="submit" class="text-white rounded-md py-2 px-4 btnsimpan">
+                    Simpan
+                </button>
+            </div>
+        </form>
     </div>
-    <!-- Admin Container -->
 
     <script>
         function previewImage(event) {
