@@ -184,7 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <!-- Page Title -->
     <div class="adminpage">
-        <a href="adminplh.html">Kembali</a>
+        <a href="adminplh.php">Kembali</a>
     </div>
 
     <!-- Admin Content -->
@@ -197,10 +197,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="nantab">
             <ul>
                 <li>
-                    <a href="adminsatini.html"> Input Bazar Saat Ini</a>
+                    <a href="adminsatini.php"> Input Bazar Saat Ini</a>
                 </li>
                 <li>
-                    <a href="adminbazarakandatang.html">Input Bazar yang akan datang</a>
+                    <a href="adminbazarakandatang.php">Input Bazar yang akan datang</a>
                 </li>
                 <li style="background-color: rgb(235, 235, 235)">
                     <a href="#">Pelaporan</a>

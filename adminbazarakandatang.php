@@ -74,7 +74,7 @@ if (isset($_POST["submit"])) {
                 echo "
                 <script>
                    alert('Data berhasil ditambahkan');
-                   document.location.href = 'index.php';
+                   document.location.href = 'adminplh.php';
                 </script>
                ";
             } else {
@@ -149,7 +149,7 @@ if (isset($_POST["submit"])) {
 
     <!-- Page Title -->
     <div class="adminpage">
-        <a href="adminplh.html">Kembali</a>
+        <a href="adminplh.php">Kembali</a>
     </div>
 
     <div style="margin-bottom: 40px" class="juduladmin">
@@ -161,7 +161,7 @@ if (isset($_POST["submit"])) {
         <div class="nantab">
             <ul>
                 <li>
-                    <a href="adminsatini.html"> Input Bazar Saat Ini</a>
+                    <a href="adminsatini.php"> Input Bazar Saat Ini</a>
                 </li>
                 <li style="background-color: rgb(235, 235, 235)">
                     <a href="#">Input Bazar yang akan datang</a>

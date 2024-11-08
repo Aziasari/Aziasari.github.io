@@ -30,6 +30,24 @@ if (isset($_POST['delete_bazar'])) {
     $stmt->close();
 }
 
+// Proses penghapusan jika `bazar_id` dikirimkan via URL
+if (isset($_GET['delete_bazar_id'])) {
+    $bazar_id = $_GET['delete_bazar_id'];
+
+    // Prepare statement untuk menghapus dari tabel `bazar_akan_datang`
+    $stmt = $conn->prepare("DELETE FROM bazar_akan_datang WHERE bazar_id = ?");
+    $stmt->bind_param("i", $bazar_id);
+
+    if ($stmt->execute()) {
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
+    } else {
+        echo "Error deleting record: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
+
 $conn->close();
 ?>
 
@@ -90,26 +108,26 @@ $conn->close();
 
     <div class="container" style="margin-top: 100px;">
         <h1>Admin</h1>
-        <button class="btn" onclick="window.location.href='adminsatini.html'">Tambah Bazar</button>
+        <button class="btn" onclick="window.location.href='adminsatini.php'">Tambah Bazar</button>
         <h2>Bazar saat ini</h2>
         <ul class="bazar-list">
             <?php
-                // Cek apakah ada data di dalam $result_current
-                if (mysqli_num_rows($result_current) > 0) {
-                    while ($row = mysqli_fetch_assoc($result_current)) {
-                        echo '<li class="bazar-item">';
-                        echo '<span>' . htmlspecialchars($row['nama_bazar']) . '</span>';
-                        echo '<div class="bazar-actions">';
-                        // Memperbarui tautan edit untuk menyertakan bazar_id
-                        echo '<a href="editadminsatini.php?bazar_id=' . urlencode($row['bazar_id']) . '" class="icon edit-icon"> ✏️</a>';
-                        echo '<span class="icon delete-icon" onclick="confirmDelete(\'' . htmlspecialchars($row['nama_bazar']) . '\')">🗑️</span>';
-                        echo '</div>';
-                        echo '</li>';
-                    }
-                } else {
-                    // Tampilkan pesan jika tidak ada data bazar saat ini
-                    echo '<li class="bazar-item">Tidak ada data bazar saat ini..</li>';
+            // Cek apakah ada data di dalam $result_current
+            if (mysqli_num_rows($result_current) > 0) {
+                while ($row = mysqli_fetch_assoc($result_current)) {
+                    echo '<li class="bazar-item">';
+                    echo '<span>' . htmlspecialchars($row['nama_bazar']) . '</span>';
+                    echo '<div class="bazar-actions">';
+                    // Memperbarui tautan edit untuk menyertakan bazar_id
+                    echo '<a href="editadminsatini.php?bazar_id=' . urlencode($row['bazar_id']) . '" class="icon edit-icon"> ✏️</a>';
+                    echo '<span class="icon delete-icon" onclick="confirmDelete(\'' . htmlspecialchars($row['nama_bazar']) . '\')">🗑️</span>';
+                    echo '</div>';
+                    echo '</li>';
                 }
+            } else {
+                // Tampilkan pesan jika tidak ada data bazar saat ini
+                echo '<li class="bazar-item">Tidak ada data bazar saat ini..</li>';
+            }
             ?>
         </ul>
 
@@ -121,9 +139,8 @@ $conn->close();
                     echo '<li class="bazar-item">';
                     echo '<span>' . htmlspecialchars($row['nama_bazar']) . '</span>';
                     echo '<div class="bazar-actions">';
-                    // Memperbarui tautan edit untuk menyertakan bazar_id
                     echo '<a href="ubahbazzarakandatang.php?bazar_id=' . urlencode($row['bazar_id']) . '" class="icon edit-icon"> ✏️</a>';
-                    echo '<span class="icon delete-icon" onclick="confirmDelete(\'' . htmlspecialchars($row['nama_bazar']) . '\')">🗑️</span>';
+                    echo '<a href="' . $_SERVER['PHP_SELF'] . '?delete_bazar_id=' . urlencode($row['bazar_id']) . '" class="icon delete-icon" onclick="return confirm(\'Apakah Anda yakin ingin menghapus bazar ini?\')">🗑️</a>';
                     echo '</div>';
                     echo '</li>';
                 }
