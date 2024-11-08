@@ -185,6 +185,10 @@ table {
     background-color: #f8f9fa;
     font-weight: bold;
 }
+.table-container table td {
+    background-color: #f1f1f1 !important; /* Warna putih dengan !important untuk mengatasi konflik */
+}
+
 .table td,
 .table th {
     vertical-align: middle;
