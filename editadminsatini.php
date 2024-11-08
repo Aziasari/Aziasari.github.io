@@ -1,3 +1,78 @@
+<?php
+require 'koneksi.php'; // Pastikan koneksi ke database sudah benar
+
+$bazar_id = null;
+$bazar = null;
+
+// Cek apakah ada bazar_id di URL untuk mengedit
+if (isset($_GET['bazar_id'])) {
+    $bazar_id = $_GET['bazar_id'];
+    // Query untuk mendapatkan detail bazar berdasarkan bazar_id
+    $query = "SELECT * FROM bazar_saat_ini WHERE bazar_id = $bazar_id";
+    $result = mysqli_query($conn, $query);
+    $bazar = mysqli_fetch_assoc($result);
+}
+
+function upload() {
+    $namafile = $_FILES['gambar']['name'];
+    $tmpname = $_FILES['gambar']['tmp_name'];
+
+    move_uploaded_file($tmpname, 'img/' . $namafile);
+    return $namafile;
+}
+
+if (isset($_POST["submit"])) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $nama_bazar = htmlspecialchars(trim($_POST['nama_bazar']));
+        $kontak_penyelenggara = htmlspecialchars(trim($_POST['kontak_penyelenggara']));
+        $tanggal = htmlspecialchars(trim($_POST['tanggal']));
+        $lokasi = htmlspecialchars(trim($_POST['lokasi']));
+        $waktu = htmlspecialchars(trim($_POST['waktu']));
+        $biaya = htmlspecialchars(trim($_POST['biaya']));
+        $deskripsi = htmlspecialchars(trim($_POST['deskripsi']));
+        $kuota_peserta = htmlspecialchars(trim($_POST['kuota_peserta']));
+        $gambar_lama = $_POST['gambarlama'];
+
+        // Upload gambar terlebih dahulu
+        $gambar_bazar = upload(); // Fungsi upload harus didefinisikan sebelumnya
+        if (!$gambar_bazar) {
+            $gambar_bazar = $gambar_lama; // Jika tidak ada gambar baru, gunakan gambar lama
+        }
+
+        $sql = "UPDATE bazar_saat_ini SET 
+             nama_bazar = '$nama_bazar', 
+             kontak_penyelenggara = '$kontak_penyelenggara',
+             tanggal = '$tanggal', 
+             lokasi = '$lokasi',
+             waktu = '$waktu',
+             biaya = '$biaya',
+             deskripsi = '$deskripsi', 
+             gambar_bazar = '$gambar_bazar',
+             kuota_peserta = '$kuota_peserta'
+         WHERE bazar_id = $bazar_id";
+
+            if ($conn->query($sql) === TRUE) {
+                echo "
+                <script>
+                   alert('Data berhasil diupdate');
+                   document.location.href = 'adminplh.php';
+                </script>
+               ";
+            } else {
+                echo "
+                <script>
+                   alert('Data gagal diupdate');
+                   document.location.href = 'adminsatini.php';
+                </script>
+               ";
+            }
+    }
+}
+
+// Menutup koneksi database
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -28,7 +103,7 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         />
-        <title>Document</title>
+        <title>Admin - Edit Bazar Saat Ini</title>
     </head>
     <body class="bg-gray-100">
         <!--Navbar-->
@@ -136,110 +211,127 @@
                 <h2 style="margin-top: 50px" class="text-center mb-4">
                     Input Bazar Saat Ini
                 </h2>
-                <form>
+                <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateImage()">
+                    <input type="hidden" name="gambarlama" value="<?php echo $bazar['gambar_bazar']; ?>">
+                    <input type="hidden" name="id" value="<?php echo $bazar_id; ?>">
                     <!-- Nama Kegiatan Bazar -->
                     <div class="mb-3">
-                        <label for="namaBazar" class="form-label"
+                        <label for="nama_bazar" class="form-label"
                             >Nama Kegiatan Bazar</label
                         >
                         <input
                             type="text"
                             class="form-control"
-                            id="namaBazar"
+                            id="nama_bazar"
+                            name="nama_bazar"
                             placeholder="Masukkan Nama Kegiatan Bazar"
+                            value="<?php echo htmlspecialchars($bazar['nama_bazar']); ?>" 
+                            required
                         />
                     </div>
                     <!-- Kontak Penyelenggara -->
                     <div class="mb-3">
-                        <label for="kontakpenyelenggara" class="form-label"
+                        <label for="kontak_penyelenggara" class="form-label"
                             >Kontak Penyelenggara</label
                         >
                         <input
                             type="text"
                             class="form-control"
-                            id="kontakpenyelenggara"
+                            id="kontak_penyelenggara"
+                            name="kontak_penyelenggara"
                             placeholder="Contoh:08122345678"
+                            value="<?php echo htmlspecialchars($bazar['kontak_penyelenggara']); ?>" 
+                            required
                         />
                     </div>
                     <!-- Tanggal Bazar -->
                     <div class="mb-3">
-                        <label for="tanggalBazar" class="form-label"
+                        <label for="tanggal" class="form-label"
                             >Tanggal Bazar</label
                         >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="tanggalBazar"
-                            placeholder="Contoh: 20 Mei 2024"
-                        />
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="<?php echo htmlspecialchars($bazar['tanggal']); ?>" required />
                     </div>
                     <!-- Lokasi Bazar -->
                     <div class="mb-3">
-                        <label for="lokasiBazar" class="form-label"
+                        <label for="lokasi" class="form-label"
                             >Lokasi Bazar</label
                         >
                         <input
                             type="text"
                             class="form-control"
-                            id="lokasiBazar"
+                            id="lokasi"
+                            name="lokasi"
                             placeholder="Masukkan Lokasi Bazar"
+                            value="<?php echo htmlspecialchars($bazar['lokasi']); ?>" 
+                            required
                         />
                     </div>
                     <!-- Waktu Kegiatan -->
                     <div class="mb-3">
-                        <label for="waktuKegiatan" class="form-label"
+                        <label for="waktu" class="form-label"
                             >Waktu Kegiatan</label
                         >
                         <input
                             type="text"
                             class="form-control"
-                            id="waktuKegiatan"
+                            id="waktu"
+                            name="waktu"
                             placeholder="Contoh: 09.00 - 18.00 WIB"
+                            value="<?php echo htmlspecialchars($bazar['waktu']); ?>" 
+                            required
                         />
                     </div>
                     <!-- Biaya Pendaftaran -->
                     <div class="mb-3">
-                        <label for="biayaPendaftaran" class="form-label"
+                        <label for="biaya" class="form-label"
                             >Biaya Pendaftaran</label
                         >
                         <input
                             type="text"
                             class="form-control"
-                            id="biayaPendaftaran"
+                            id="biaya"
+                            name="biaya"
                             placeholder="Contoh: 100.000"
+                            value="<?php echo htmlspecialchars($bazar['biaya']); ?>" 
+                            required
                         />
                     </div>
                     <!-- Deskripsi Kegiatan -->
                     <div class="mb-3">
-                        <label for="deskripsiKegiatan" class="form-label"
+                        <label for="deskripsi" class="form-label"
                             >Deskripsi Kegiatan</label
                         >
                         <textarea
-                            id="deskripsiKegiatan"
+                            id="deskripsi"
+                            name="deskripsi"
                             class="form-control"
                             rows="10"
                             placeholder="Masukkan Deskripsi Singkat Kegiatan"
-                        ></textarea>
+                            required
+                        ><?php echo htmlspecialchars($bazar['deskripsi']); ?></textarea>
                     </div>
                     <!-- Kuota Peserta -->
                     <div class="mb-3">
-                        <label for="kuotaPeserta" class="form-label"
+                        <label for="kuota_peserta" class="form-label"
                             >Kuota Peserta</label
                         >
                         <input
                             type="text"
                             class="form-control"
-                            id="kuotaPeserta"
+                            id="kuota_peserta"
+                            name="kuota_peserta"
                             placeholder="Contoh: 50"
+                            value="<?php echo htmlspecialchars($bazar['kuota_peserta']); ?>" 
+                            required
                         />
                     </div>
 
                     <!-- Tambahkan Gambar -->
                     <div class="mb-3">
-                        <label for="gambarBazar" class="form-label"
-                            >Tambahkan Gambar</label
-                        >
-                        <button type="button" class="btnconfirm">
+                        <label for="gambar_bazar" class="form-label" style="margin-top: 20px;">Tambahkan Gambar</label>
+                        <img id="preview" src="<?php echo htmlspecialchars($bazar['gambar_bazar']); ?>" width="300" alt="" />
+                        <input type="file" class="form-control d-none" id="gambar_bazar" name="gambar" onchange="previewImage(event)"/>
+                        <button type="button" class="btnconfirm" onclick="triggerFileInput()">
                             Pilih Gambar
                         </button>
                     </div>
@@ -251,7 +343,7 @@
 
                     <!-- Simpan Button -->
                     <div class="text-center">
-                        <button type="submit" class="btnsimpan">Simpan</button>
+                        <button type="submit" name="submit" class="btnsimpan">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -262,3 +354,37 @@
         </div>
     </body>
 </html>
+
+<script>
+    function previewImage(event) {
+        const image = document.getElementById('preview');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    }
+
+    function triggerFileInput() {
+        document.getElementById('gambar_bazar').click();
+    }
+
+    function validateImage() {
+        console.log("Validating image..."); // Debugging log
+        const imageInput = document.getElementById('gambar_bazar');
+        
+        // Check the file size (2 MB limit)
+        const file = imageInput.files[0];
+
+        // Validate file type (only allow images)
+        const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+        if (!allowedTypes.includes(file.type)) {
+            alert("Jenis file tidak didukung. Harap pilih gambar dengan format JPEG, PNG, atau JPG.");
+            return false;
+        }
+
+        const maxSizeInMB = 2;
+        if (file.size > maxSizeInMB * 1024 * 1024) { // Convert MB to bytes
+            alert("Ukuran gambar terlalu besar. Harap pilih gambar yang ukurannya tidak lebih dari 2 MB.");
+            return false;
+        }
+        
+        return true;
+    }
+</script>

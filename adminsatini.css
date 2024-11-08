@@ -179,16 +179,16 @@ nav {
 
 .form-control {
   background-color: #fdfcfb;
-  border: 2px solid #a5a5a5 !important; /* Border ini sudah benar */
-  border-radius: 15px !important; /* Tambahkan border-radius agar terlihat lebih menarik */
-  padding: 15px !important; /* Tambahkan padding untuk menambahkan ruang dalam */
-  box-shadow: none; /* Hilangkan shadow jika ada efek yang mengganggu tampilan */
+  border: 2px solid #a5a5a5 !important;
+  border-radius: 15px !important;
+  padding: 15px !important;
+  box-shadow: none;
 }
 
 .form-control:focus {
-  border-color: #6d2932; /* Beri warna border ketika input difokuskan */
-  outline: none; /* Hilangkan outline default */
-  box-shadow: 0 0 0 0.2rem rgba(109, 41, 50, 0.25); /* Tambahkan shadow saat difokuskan */
+  border-color: #6d2932;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(109, 41, 50, 0.25);
 }
 .form-label {
   color: #4a3f35;
@@ -215,13 +215,15 @@ nav {
   background-color: #49191f;
   color: #e2e2e2;
 }
-.footernote {
-  color: #4a3f35;
+
+input[type="file"] {
+  display: block;
+  margin-bottom: 10px;
 }
 
-  .footer {
-    text-align: center;
-    margin-top: 20px;
-    color: #666;
-    font-size: 0.8em;
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+  font-size: 0.8em;
 }
