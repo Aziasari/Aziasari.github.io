@@ -1,3 +1,29 @@
+<?php
+require 'koneksi.php';
+
+$rows = mysqli_query($conn, "SELECT * FROM bazar_saat_ini");
+
+// Ambil hanya data pertama
+$row = mysqli_fetch_assoc($rows);
+
+$max_length = 200; // Tentukan panjang maksimal deskripsi
+
+// Ambil deskripsi dari data pertama
+$deskripsi = $row['deskripsi'];
+
+// Periksa apakah panjang deskripsi lebih dari batas yang ditentukan
+if (strlen($deskripsi) > $max_length) {
+    // Potong deskripsi dan tambahkan elipsis
+    $deskripsi = substr($deskripsi, 0, $max_length) . '...';
+}
+
+// Menampilkan deskripsi yang telah dibatasi
+echo "<p>$deskripsi</p>";
+
+mysqli_close($conn);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -95,8 +121,13 @@
     <section class="latest-events">
         <div>
             <h2>Event Bazar Saat Ini</h2>
-            <div class="latest-events-container">
-                <img src="asset-beranda/Bazar Tahunan “Merayakann Kreativitas UMKM Pekanbaru”.png" alt="" class="latest-events-image"/>
+            <div class="latest-events-container" style="display: flex; flex-direction: column; align-items: center;">
+                <?php foreach($rows as $row) : ?>
+                <img style="width: 500px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);" src="uploads/<?php echo $row['gambar_bazar']; ?>" alt="<?php echo $row['nama_bazar']; ?>" class="latest-events-image"/>
+                <h3 style="width: 700px;" href="#"><?php echo $row['nama_bazar']; ?></h3>
+                <p style="width: 800px;"><?php echo $deskripsi ?></p>
+                <?php endforeach; ?>
+                
                 <a href="detailBazar.html">
                     <button class="keuntungan-button" type="button">Daftar Sekarang</button>
                 </a>

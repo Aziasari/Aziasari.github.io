@@ -1,14 +1,6 @@
 <?php
 require 'koneksi.php';
 
-function upload() {
-    $namafile = $_FILES['gambar']['name'];
-    $tmpname = $_FILES['gambar']['tmp_name'];
-
-    @move_uploaded_file($tmpname, 'img/' . $namafile);
-    return $namafile;
-}
-
 if (isset($_POST["submit"])) {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Cek apakah tabel sudah memiliki 1 baris data
@@ -29,17 +21,32 @@ if (isset($_POST["submit"])) {
             $deskripsi = htmlspecialchars(trim($_POST['deskripsi']));
             $kuota_peserta = htmlspecialchars(trim($_POST['kuota_peserta']));
 
-            $gambar_bazar_blob = upload();
-            if ($gambar_bazar_blob) {
-                $stmt = $conn->prepare("INSERT INTO bazar_saat_ini (nama_bazar, kontak_penyelenggara, tanggal, lokasi, waktu, biaya, deskripsi, kuota_peserta, gambar_bazar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("sssssssis", $nama_bazar, $kontak_penyelenggara, $tanggal, $lokasi, $waktu, $biaya, $deskripsi, $kuota_peserta, $gambar_bazar_blob);
+            if ($_FILES["gambar"]["error"] == 4) {
+                echo "<script> alert ('Gambar tidak ditemukan'); </script>";
+            }else {
+                $namafile = $_FILES['gambar']['name'];
+                $tmpname = $_FILES['gambar']['tmp_name'];
 
-                if ($stmt->execute()) {
-                    echo "Data berhasil disimpan!";
+                $validImageExtension = ['jpg', 'jpeg', 'png'];
+                $imageExtension = explode('.', $namafile);
+                $imageExtension = strtolower(end($imageExtension));
+                if(!in_array($imageExtension, $validImageExtension)){
+                    echo "<script> alert ('Gambar tidak ditemukan'); </script>";
                 } else {
-                    echo "Error: " . $stmt->error;
+                    $newImageName = uniqid() . '.' . $imageExtension;
+                    $uploadDirectory = 'uploads/';
+                    move_uploaded_file($tmpname, $uploadDirectory . $newImageName);
+
+                    $stmt = $conn->prepare("INSERT INTO bazar_saat_ini (nama_bazar, kontak_penyelenggara, tanggal, lokasi, waktu, biaya, deskripsi, kuota_peserta, gambar_bazar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->bind_param("sssssssis", $nama_bazar, $kontak_penyelenggara, $tanggal, $lokasi, $waktu, $biaya, $deskripsi, $kuota_peserta, $newImageName);
+
+                    if ($stmt->execute()) {
+                        echo "<script> alert ('Data Berhasil Disimpan!'); document.location.href = 'data.php'; </script>";
+                    } else {
+                        echo "Error: " . $stmt->error;
+                    }
+                    $stmt->close();
                 }
-                $stmt->close();
             }
         }
     }

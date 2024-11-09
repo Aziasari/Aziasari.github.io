@@ -1,9 +1,61 @@
+<?php
+require 'koneksi.php';
+
+$i=1;
+$rows = mysqli_query($conn, "SELECT * FROM bazar_saat_ini");
+
+if ($row = mysqli_fetch_assoc($rows)) {
+    // Ambil tanggal dari data pertama
+    $tanggal = $row['tanggal'];
+
+    // Mengubah tanggal menjadi format yang lebih mudah dibaca
+    $formatted_date = date("l, d F Y", strtotime($tanggal));
+
+    // Daftar hari dalam bahasa Indonesia
+    $hari = array(
+        "Sunday" => "Minggu",
+        "Monday" => "Senin",
+        "Tuesday" => "Selasa",
+        "Wednesday" => "Rabu",
+        "Thursday" => "Kamis",
+        "Friday" => "Jumat",
+        "Saturday" => "Sabtu"
+    );
+
+    // Daftar bulan dalam bahasa Indonesia
+    $bulan = array(
+        "January" => "Januari",
+        "February" => "Februari",
+        "March" => "Maret",
+        "April" => "April",
+        "May" => "Mei",
+        "June" => "Juni",
+        "July" => "Juli",
+        "August" => "Agustus",
+        "September" => "September",
+        "October" => "Oktober",
+        "November" => "November",
+        "December" => "Desember"
+    );
+
+    // Mengganti nama hari dan bulan dengan bahasa Indonesia
+    $formatted_date = str_replace(array_keys($hari), array_values($hari), $formatted_date);
+    $formatted_date = str_replace(array_keys($bulan), array_values($bulan), $formatted_date);
+
+    // Menampilkan tanggal yang telah diformat
+    echo "<h6>$formatted_date</h6>";
+} else {
+    echo "Data tidak ditemukan.";
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hero Page</title>
+    <title>Detail Event Bazar</title>
     <link rel="stylesheet" href="detailBazar.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Nokora:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind:wght@500&family=Jost:wght@400;700&family=Quicksand:wght@300;600&family=Roboto:wght@300;500&family=Shantell+Sans:wght@500&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
@@ -53,7 +105,8 @@
 
     <section class="detail-bazar"></section>
         <div class="event1">
-            <h2>Bazar Tahunan "Merayakan Kreativitas UMKM Pekanbaru"</h2>
+        <?php foreach($rows as $row) : ?>
+            <h2><?php echo $row['nama_bazar']; ?></h2>
             <div class="date">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 22 22" fill="none">
                     <g clip-path="url(#clip0_434_132)">
@@ -65,32 +118,33 @@
                         </clipPath>
                     </defs>
                 </svg>
-                <h6> Oktober 25, 2024</h6>
+                <h6> <?php echo $formatted_date ?></h6>
             </div>
-            <img src="asset-detail-bazar/Bazar saat ini.png" alt="Event Image" />
+            <img style="width: 400px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); border-radius: 20px;" src="uploads/<?php echo $row['gambar_bazar']; ?>" alt="<?php echo $row['nama_bazar']; ?>" class="latest-events-image"/>
 
             <div class="detail-bazar">
-                <p>Bergabunglah dalam Bazar Tahunan dengan tema “Merayakan Kreativitas UMKM Pekanbaru”, sebuah bazar yang merayakan kreativitas dan keunikan UMKM lokal! Ini adalah kesempatan emas bagi Anda untuk memamerkan produk-produk terbaik Anda kepada ribuan pengunjung yang antusias. Jangan lewatkan momen untuk memperluas jaringan bisnis, bertemu dengan calon pelanggan baru, dan menunjukkan karya terbaik Anda. Daftar sekarang dan jadilah bagian dari perayaan pesona karya Nusantara!</p>
+                <p><?php echo $row['deskripsi']; ?></p>
 
                 <div class="detail">
-                    <p><span>Lokasi :</span> Gedung Serbaguna, Jl. Jenderal Sudirman No. 123, Pekanbaru</p>
-                    <p><span>Tanggal :</span> 25 Oktober 2024</p>
-                    <p><span>Waktu :</span> 09.00 - 18.00 WIB</p>
-                    <p><span>Biaya Pendaftaran :</span> Rp 100.000,-</p>
-                    <p><span>Kuota Peserta :</span> 50 orang</p>
+                    <p><span>Lokasi :</span> <?php echo $row['lokasi']; ?></p>
+                    <p><span>Tanggal :</span> <?php echo $formatted_date ?></p>
+                    <p><span>Waktu :</span> <?php echo $row['waktu']; ?></p>
+                    <p><span>Biaya Pendaftaran :</span> Rp <?php echo $row['biaya']; ?>,-</p>
+                    <p><span>Kuota Peserta :</span> <?php echo $row['kuota_peserta']; ?> orang</p>
                 </div>
             </div>
 
             <div class="kontak-penyelenggara">
-                <p>Jika Anda memiliki pertanyaan, dapat menghubungi kontak penyelenggara berikut</p>
+                <p style="font-size: 18px;">Jika Anda memiliki pertanyaan, dapat menghubungi kontak penyelenggara berikut</p>
                 
                 <div class="kontak">
-                    <p>No. telp : 0812345678</p>
+                    <p style="font-size: 18px;">No. telp : <?php echo $row['kontak_penyelenggara']; ?></p>
                 </div>
             </div>
             <a href="halamanpendaftaran.html">
                 <button class="detail-button" type="button">Daftar Sekarang</button>
             </a>
+        <?php endforeach; ?>
         </div>
     </section>
 
