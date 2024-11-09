@@ -5,6 +5,72 @@ require 'vendor/autoload.php'; // Autoload dari PhpSpreadsheet
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+// Hapus 'use TCPDF;' jika TCPDF dipanggil tanpa namespace
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['convert_to_pdf'])) {
+    // Hapus semua output buffer untuk memastikan PDF tidak rusak
+    if (ob_get_length()) {
+        ob_end_clean();
+    }
+
+    // Membuat instance TCPDF baru
+    $pdf = new \TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT); // 'L' untuk orientasi landscape
+
+    // Mengatur metadata dokumen
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Admin');
+    $pdf->SetTitle('Laporan Pendaftaran UMKM');
+
+    // Menambahkan halaman baru
+    $pdf->AddPage();
+
+    // Konten tabel
+    $html = '<h2>Laporan Data Pendaftaran UMKM</h2>
+             <table border="1" cellpadding="5">
+                 <thead>
+                     <tr>
+                         <th>No.</th>
+                         <th>Nama Pelaku UMKM</th>
+                         <th>Nama UMKM</th>
+                         <th>Jenis UMKM</th>
+                         <th>Nomor HP</th>
+                         <th>Email</th>
+                         <th>Alamat</th>
+                     </tr>
+                 </thead>
+                 <tbody>';
+
+    // Query untuk mengambil data dari tabel pendaftaran
+    $sql = "SELECT * FROM pendaftaran";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $no = 1;
+        while ($data = $result->fetch_assoc()) {
+            $html .= '<tr>
+                         <td>' . $no++ . '</td>
+                         <td>' . htmlspecialchars($data['nama_pelaku_umkm']) . '</td>
+                         <td>' . htmlspecialchars($data['nama_umkm']) . '</td>
+                         <td>' . htmlspecialchars($data['jenis_umkm']) . '</td>
+                         <td>' . htmlspecialchars($data['nomor_telpon']) . '</td>
+                         <td>' . htmlspecialchars($data['email_pelaku_umkm']) . '</td>
+                         <td>' . htmlspecialchars($data['alamat']) . '</td>
+                      </tr>';
+        }
+    } else {
+        $html .= '<tr><td colspan="7">Tidak ada data pendaftaran.</td></tr>';
+    }
+
+    $html .= '</tbody></table>';
+
+    // Menulis konten HTML ke PDF
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    // Output PDF ke browser
+    $pdf->Output('data_pendaftaran.pdf', 'D');
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Menghapus semua output buffer untuk memastikan file Excel tidak rusak
     if (ob_get_length()) ob_end_clean();
@@ -55,6 +121,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Tidak ada data pendaftaran untuk diekspor.";
     }
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -116,7 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <!-- Page Title -->
     <div class="adminpage">
-        <a href="adminplh.html">Kembali</a>
+        <a href="adminplh.php">Kembali</a>
     </div>
 
     <!-- Admin Content -->
@@ -129,10 +197,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="nantab">
             <ul>
                 <li>
-                    <a href="adminsatini.html"> Input Bazar Saat Ini</a>
+                    <a href="adminsatini.php"> Input Bazar Saat Ini</a>
                 </li>
                 <li>
-                    <a href="adminbazarakandatang.html">Input Bazar yang akan datang</a>
+                    <a href="adminbazarakandatang.php">Input Bazar yang akan datang</a>
                 </li>
                 <li style="background-color: rgb(235, 235, 235)">
                     <a href="#">Pelaporan</a>
@@ -188,6 +256,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <form method="post">
                     <button style="font-weight: bold" type="submit" class="buttonform">
                         Convert To Excel
+                    </button>
+                </form>
+            </div>
+
+            <div class="text-center mt-4">
+                <form method="post">
+                    <button name="convert_to_pdf" style="font-weight: bold" type="submit" class="buttonform">
+                        Convert To PDF
                     </button>
                 </form>
             </div>
