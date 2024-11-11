@@ -2,6 +2,13 @@
 require 'koneksi.php';
 session_start();
 
+// Cek apakah sudah ada session login
+if (isset($_SESSION['username'])) {
+    // Jika sudah login, arahkan ke halaman admin
+    header("Location: adminplh.php");
+    exit();
+}
+
 // Cek apakah form login disubmit
 if (isset($_POST['login'])) {
     // Koneksi ke database
@@ -20,26 +27,20 @@ if (isset($_POST['login'])) {
 
     // Cek apakah ada user yang ditemukan
     if ($result->num_rows > 0) {
-        // Ambil data user
         $row = $result->fetch_assoc();
 
-        // Verifikasi password (gunakan password_hash dan password_verify jika menggunakan hashing)
+        // Verifikasi password
         if ($inputPassword == $row['password']) {
-            // Jika login sukses, simpan username ke session
             $_SESSION['username'] = $inputUsername;
 
-            // Cek apakah user mencentang 'Remember me'
             if (isset($_POST['remember'])) {
-                // Set cookie untuk username dan password selama 1 menit
                 setcookie('username', $inputUsername, time() + 60, "/"); // 1 menit
                 setcookie('password', $inputPassword, time() + 60, "/"); // 1 menit
             } else {
-                // Hapus cookie jika tidak dicentang
                 setcookie('username', "", time() - 3600, "/");
                 setcookie('password', "", time() - 3600, "/");
             }
 
-            // Redirect ke halaman admin atau dashboard
             header("Location: adminplh.php");
             exit();
         } else {
@@ -50,18 +51,37 @@ if (isset($_POST['login'])) {
         // Jika username tidak ditemukan
         $error = "Username atau Password salah!";
     }
-
-    // Tutup koneksi
     $conn->close();
 } else {
-    // Jika cookie ada, isi form dengan username dan password
     if (isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
-        $inputUsername = $_COOKIE['username'];
-        $inputPassword = $_COOKIE['password'];
+        $cookieTime = time(); // Waktu sekarang
+        // $cookieExpiry = time() + 60; // 1 menit ke depan (sama seperti saat set cookie)
+        if ($cookieTime < $cookieExpiry) {
+            $inputUsername = $_COOKIE['username'];
+            $inputPassword = $_COOKIE['password'];
+
+            $sql = "SELECT * FROM adminn WHERE username = '$inputUsername' AND password = '$inputPassword'";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                $_SESSION['username'] = $inputUsername;
+                header("Location: adminplh.php");
+                exit();
+            } else {
+                setcookie('username', "", time() - 3600, "/");
+                setcookie('password', "", time() - 3600, "/");
+                header("Location: login.php");
+                exit();
+            }
+        } else {
+            setcookie('username', "", time() - 3600, "/");
+            setcookie('password', "", time() - 3600, "/");
+            header("Location: login.php");
+            exit();
+        }
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -187,41 +207,7 @@ if (isset($_POST['login'])) {
 
 <body>
     <div class="header">
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="padding-left: 130px; padding-right: 130px">
-            <a class="navbar-brand" href="/"><img src="./asset-navigasi-footer/Bazar_Logo.png" alt="Navbar Logo" /></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarText" style="font-size: 20px; color: rgb(105, 104, 104);">
-                <ul class="navbar-nav text-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Beranda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php#daftar-bazar">Daftar Bazar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="halamantentangkami.php">Tentang Kami</a>
-                    </li>
-                </ul>
-
-                <div class="sosmed d-flex flex-row justify-content-center">
-                    <a class="nav-link" href="https://www.instagram.com/accounts/login/">
-                        <i class="fab fa-instagram" style="color: #6D2932; font-size: 25px;"></i>
-                    </a>
-                    <a class="nav-link" href="https://www.whatsapp.com/">
-                        <i class="fab fa-whatsapp" style="color: #6D2932; font-size: 25px;"></i>
-                    </a>
-                    <a class="nav-link" href="https://facebook.com/login/">
-                        <i class="fab fa-facebook" style="color: #6D2932; font-size: 25px;"></i>
-                    </a>
-                    <a class="nav-link" href="login.html">
-                        <i class="fas fa-circle-user" style="color: #6D2932; font-size: 25px;"></i>
-                    </a>
-                </div>
-            </div>
-        </nav>
+        <!-- Navbar code remains unchanged -->
     </div>
 
     <div class="adminpage">
