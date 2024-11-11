@@ -6,7 +6,7 @@ $query = "SELECT bazar_id, nama_bazar FROM bazar_akan_datang";
 $result = mysqli_query($conn, $query);
 
 // Fetch data from the bazarsaatini table
-$query_current = "SELECT bazar_id, nama_bazar FROM bazar_saat_ini";
+$query_current = "SELECT bazar_id,tanggal, nama_bazar FROM bazar_saat_ini";
 $result_current = mysqli_query($conn, $query_current);
 
 if (isset($_POST['delete_bazar'])) {
@@ -59,12 +59,13 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin -Kelola Bazar</title>
     <link rel="stylesheet" href="adminplh.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Nokora:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@500&family=Jost:wght@400;700&family=Quicksand:wght@300;600&family=Roboto:wght@300;500&family=Shantell+Sans:wght@500&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Oleo+Script:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="pelaporan.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Nokora:wght@700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@500&family=Jost:wght@400;700&family=Quicksand:wght@300;600&family=Roboto:wght@300;500&family=Shantell+Sans:wght@500&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Oleo+Script:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -78,13 +79,13 @@ $conn->close();
             <div class="collapse navbar-collapse" id="navbarText" style="font-size: 20px; color: rgb(105, 104, 104);">
                 <ul class="navbar-nav text-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="#beranda">Beranda</a>
+                        <a class="nav-link" href="index.php">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#daftar-bazar">Daftar Bazar</a>
+                        <a class="nav-link" href="index.php#daftar-bazar">Daftar Bazar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="halamantentangkami.html">Tentang Kami</a>
+                        <a class="nav-link" href="halamantentangkami.php">Tentang Kami</a>
                     </li>
                 </ul>
 
@@ -98,7 +99,7 @@ $conn->close();
                     <a class="nav-link" href="https://facebook.com/login/">
                         <i class="fab fa-facebook" style="color: #6D2932; font-size: 25px;"></i>
                     </a>
-                    <a class="nav-link" href="login.html">
+                    <a class="nav-link" href="login.php">
                         <i class="fas fa-circle-user" style="color: #6D2932; font-size: 25px;"></i>
                     </a>
                 </div>
@@ -106,11 +107,15 @@ $conn->close();
         </nav>
     </div>
 
+    <div class="adminpage">
+        <a href="login.php">Kembali</a>
+    </div>
+
     <div class="container" style="margin-top: 100px;">
         <h1>Admin</h1>
         <button class="btn" onclick="window.location.href='adminsatini.php'">Tambah Bazar</button>
-        <h2>Bazar saat ini</h2>
-        <ul class="bazar-list">
+        <p class=" mt-5">Bazar saat ini</p>
+        <ul class=" bazar-list">
             <?php
             // Cek apakah ada data di dalam $result_current
             if (mysqli_num_rows($result_current) > 0) {
@@ -131,7 +136,7 @@ $conn->close();
             ?>
         </ul>
 
-        <h2>Bazar yang akan datang</h2>
+        <p class="mt-5">Bazar yang akan datang</p>
         <ul class="bazar-list">
             <?php
             if (mysqli_num_rows($result) > 0) {

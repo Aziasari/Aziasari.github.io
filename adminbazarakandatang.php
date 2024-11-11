@@ -36,19 +36,22 @@ function upload()
         return false;
     }
 
-    // Generate a new file name and upload the file
-    $namafilebaru = uniqid();
-    $namafilebaru .= '.';
-    $namafilebaru .= $ekstensigambar;
+    // Generate a new file name and upload the file to the 'uploadakandatang' folder
+    $namafilebaru = uniqid(); // Generate a unique file name
+    $namafilebaru .= '.' . $ekstensigambar; // Append the file extension
 
-    move_uploaded_file($tmpname, 'img/' . $namafilebaru);
+    $target_dir = 'uploadakandatang/'; // Specify the folder where the image will be stored
+    if (!is_dir($target_dir)) {
+        mkdir($target_dir, 0777, true); // Create the folder if it doesn't exist
+    }
 
-    return $namafilebaru;
+    move_uploaded_file($tmpname, $target_dir . $namafilebaru); // Move the uploaded file to the target directory
+
+    return $namafilebaru; // Return the new file name
 }
 
 if (isset($_POST["submit"])) {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        var_dump($_POST);
         $nama_kegiatan_bazzar = $_POST['nama_kegiatan_bazzar'];
         $tanggal_bazzar = $_POST['tanggal_bazzar'];
         $deskripsi_kegiatan = $_POST['deskripsi_kegiatan'];
@@ -68,7 +71,7 @@ if (isset($_POST["submit"])) {
                 </script>
                ";
         } else {
-            $sql = "INSERT INTO bazar_akan_datang (nama_bazar, tanggal, deskripsi, gambar_bazar) VALUES ('$nama_kegiatan_bazzar', '$tanggal_bazzar', '$deskripsi_kegiatan', '$gambar')";
+            $sql = "INSERT INTO bazar_akan_datang (nama_bazar, tanggal, deskripsi, gambar_bazar_akandatang) VALUES ('$nama_kegiatan_bazzar', '$tanggal_bazzar', '$deskripsi_kegiatan', '$gambar')";
 
             if ($conn->query($sql) === TRUE) {
                 echo "
@@ -119,15 +122,16 @@ if (isset($_POST["submit"])) {
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav text-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Beranda</a>
+                        <a class="nav-link" href="index.php">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#daftar-bazar">Daftar Bazar</a>
+                        <a class="nav-link" href="index.php#daftar-bazar">Daftar Bazar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="halamantentangkami.html">Tentang Kami</a>
+                        <a class="nav-link" href="halamantentangkami.php">Tentang Kami</a>
                     </li>
                 </ul>
+
                 <div class="sosmed d-flex flex-row justify-content-center">
                     <a class="nav-link" href="https://www.instagram.com/accounts/login/">
                         <i class="fab fa-instagram" style="color: #6d2932; font-size: 25px"></i>
@@ -138,7 +142,7 @@ if (isset($_POST["submit"])) {
                     <a class="nav-link" href="https://facebook.com/login/">
                         <i class="fab fa-facebook" style="color: #6d2932; font-size: 25px"></i>
                     </a>
-                    <a class="nav-link" href="login.html">
+                    <a class="nav-link" href="login.php">
                         <i class="fas fa-circle-user" style="color: #6d2932; font-size: 25px"></i>
                     </a>
                 </div>

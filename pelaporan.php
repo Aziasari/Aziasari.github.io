@@ -153,13 +153,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav text-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Beranda</a>
+                        <a class="nav-link" href="index.php">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#daftar-bazar">Daftar Bazar</a>
+                        <a class="nav-link" href="index.php#daftar-bazar">Daftar Bazar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="halamantentangkami.html">Tentang Kami</a>
+                        <a class="nav-link" href="halamantentangkami.php">Tentang Kami</a>
                     </li>
                 </ul>
 
@@ -173,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <a class="nav-link" href="https://facebook.com/login/">
                         <i class="fab fa-facebook" style="color: #6d2932; font-size: 25px"></i>
                     </a>
-                    <a class="nav-link" href="login.html">
+                    <a class="nav-link" href="login.">php
                         <i class="fas fa-circle-user" style="color: #6d2932; font-size: 25px"></i>
                     </a>
                 </div>

@@ -23,14 +23,14 @@ if (isset($_POST["submit"])) {
 
             if ($_FILES["gambar"]["error"] == 4) {
                 echo "<script> alert ('Gambar tidak ditemukan'); </script>";
-            }else {
+            } else {
                 $namafile = $_FILES['gambar']['name'];
                 $tmpname = $_FILES['gambar']['tmp_name'];
 
                 $validImageExtension = ['jpg', 'jpeg', 'png'];
                 $imageExtension = explode('.', $namafile);
                 $imageExtension = strtolower(end($imageExtension));
-                if(!in_array($imageExtension, $validImageExtension)){
+                if (!in_array($imageExtension, $validImageExtension)) {
                     echo "<script> alert ('Gambar tidak ditemukan'); </script>";
                 } else {
                     $newImageName = uniqid() . '.' . $imageExtension;
@@ -103,13 +103,13 @@ $conn->close();
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav text-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Beranda</a>
+                        <a class="nav-link" href="index.php">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#daftar-bazar">Daftar Bazar</a>
+                        <a class="nav-link" href="index.php#daftar-bazar">Daftar Bazar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="halamantentangkami.html">Tentang Kami</a>
+                        <a class="nav-link" href="halamantentangkami.php">Tentang Kami</a>
                     </li>
                 </ul>
 

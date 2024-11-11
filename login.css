@@ -1,6 +1,6 @@
 /* navbar */
 nav {
-    background-color: #FFF;
+    background-color: #fff;
     position: fixed;
     top: 0;
     left: 0;
@@ -8,13 +8,14 @@ nav {
     z-index: 1000;
 }
 
-.navbar-brand img{
+.navbar-brand img {
     width: 70px;
     height: auto;
 }
 
 .nav-link .nav-icon:hover {
-    color: #6D2932 !important;
+    color: #6d2932 !important;
+    font-family: 'Fredoka', sans-serif;
 }
 
 .sosmed {
@@ -38,6 +39,10 @@ nav {
 .nav-item .nav-link {
     margin-left: 15px;
     margin-right: 15px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 20px;
+    line-height: normal;
+    color: rgb(105, 104, 104);
 }
 
 .nav-item a {
@@ -46,12 +51,16 @@ nav {
     transition: border-bottom 0.3s;
 }
 
-.nav-item a:hover,.nav-item a:focus {
-    border-bottom: 4px solid #6D2932;
+.nav-item a:hover,
+.nav-item a:focus {
+    border-bottom: 4px solid #6d2932;
 }
 
 @media (max-width: 992px) {
-    .navbar-nav, .sosmed {
+    .navbar-nav,
+    .sosmed {
         margin-top: 70px;
     }
 }
+
+/* navbar */
