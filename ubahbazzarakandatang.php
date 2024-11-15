@@ -141,13 +141,13 @@ if (isset($_POST["submit"])) {
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav text-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Beranda</a>
+                        <a class="nav-link" href="index.php">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#daftar-bazar">Daftar Bazar</a>
+                        <a class="nav-link" href="index.php#daftar-bazar">Daftar Bazar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="halamantentangkami.html">Tentang Kami</a>
+                        <a class="nav-link" href="halamantentangkami.php">Tentang Kami</a>
                     </li>
                 </ul>
                 <div class="sosmed d-flex flex-row justify-content-center">
@@ -160,7 +160,7 @@ if (isset($_POST["submit"])) {
                     <a class="nav-link" href="https://facebook.com/login/">
                         <i class="fab fa-facebook" style="color: #6d2932; font-size: 25px"></i>
                     </a>
-                    <a class="nav-link" href="login.html">
+                    <a class="nav-link" href="login.php">
                         <i class="fas fa-circle-user" style="color: #6d2932; font-size: 25px"></i>
                     </a>
                 </div>
@@ -170,7 +170,7 @@ if (isset($_POST["submit"])) {
     <!-- Navbar -->
 
     <div class="adminpage">
-        <a href="adminplh.html">Kembali</a>
+        <a href="adminplh.php">Kembali</a>
     </div>
 
     <div style="margin-bottom: 40px" class="juduladmin">
@@ -182,7 +182,6 @@ if (isset($_POST["submit"])) {
             Input Bazar yang akan datang
         </h2>
         <form action="" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="gambarlama" value="<?php echo $bazar['gambar_bazar']; ?>">
             <input type="hidden" name="id" value="<?php echo $bazar_id; ?>">
             <!-- Nama Kegiatan Bazar -->
             <div class="mb-3">
@@ -205,7 +204,6 @@ if (isset($_POST["submit"])) {
             <!-- Tambahkan Gambar -->
             <div class="mb-3">
                 <label for="gambarBazar" class="form-label">Tambahkan Gambar</label>
-                <img id="preview" src="<?php echo htmlspecialchars($bazar['gambar_bazar']); ?>" width="300" alt="" />
                 <input type="file" class="form-control d-none" id="gambarBazar" name="gambar" onchange="previewImage(event)" />
                 <button type="button" class="btnconfirm" onclick="document.getElementById('gambarBazar').click();">
                     Pilih Gambar

@@ -30,10 +30,10 @@ if (isset($_POST['login'])) {
         $row = $result->fetch_assoc();
 
         if (isset($_POST['remember'])) {
-            // Set cookie dengan durasi 30 detik
-            setcookie('username', $inputUsername, time() + 30, "/");
-            setcookie('password', $inputPassword, time() + 30, "/");
-            setcookie('expiry_time', time() + 30, time() + 30, "/"); // Cookie untuk mengatur waktu kadaluwarsa
+            // Set cookie dengan durasi 1 menit (60 detik)
+            setcookie('username', $inputUsername, time() + 60, "/");
+            setcookie('password', $inputPassword, time() + 60, "/");
+            setcookie('expiry_time', time() + 60, time() + 60, "/"); // Cookie untuk mengatur waktu kadaluwarsa
         } else {
             setcookie('username', "", time() - 3600, "/");
             setcookie('password', "", time() - 3600, "/");
@@ -46,36 +46,33 @@ if (isset($_POST['login'])) {
         // Jika password tidak cocok
         $error = "Username atau Password salah!";
     }
-} else {
-    if (isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
-        $cookieTime = time(); // Waktu sekarang
-        // $cookieExpiry = time() + 60; // 1 menit ke depan (sama seperti saat set cookie)
-        if ($cookieTime < $cookieExpiry) {
-            $inputUsername = $_COOKIE['username'];
-            $inputPassword = $_COOKIE['password'];
+} else if (isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
+    $cookieTime = time(); // Waktu sekarang
+    $cookieExpiry = $_COOKIE['expiry_time']; // Ambil waktu kadaluwarsa dari cookie
 
-            $sql = "SELECT * FROM adminn WHERE username = '$inputUsername' AND password = '$inputPassword'";
-            $result = $conn->query($sql);
+    if ($cookieTime < $cookieExpiry) {
+        $inputUsername = $_COOKIE['username'];
+        $inputPassword = $_COOKIE['password'];
 
-            if ($result->num_rows > 0) {
-                $_SESSION['username'] = $inputUsername;
-                header("Location: adminplh.php");
-                exit();
-            } else {
-                setcookie('username', "", time() - 3600, "/");
-                setcookie('password', "", time() - 3600, "/");
-                header("Location: login.php");
-                exit();
-            }
+        $sql = "SELECT * FROM adminn WHERE username = '$inputUsername' AND password = '$inputPassword'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $_SESSION['username'] = $inputUsername;
+            header("Location: adminplh.php");
+            exit();
         } else {
             setcookie('username', "", time() - 3600, "/");
             setcookie('password', "", time() - 3600, "/");
             header("Location: login.php");
             exit();
         }
+    } else {
+        setcookie('username', "", time() - 3600, "/");
+        setcookie('password', "", time() - 3600, "/");
+        header("Location: login.php");
+        exit();
     }
-
-    $conn->close();
 }
 ?>
 
