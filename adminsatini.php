@@ -41,7 +41,7 @@ if (isset($_POST["submit"])) {
                     $stmt->bind_param("sssssssis", $nama_bazar, $kontak_penyelenggara, $tanggal, $lokasi, $waktu, $biaya, $deskripsi, $kuota_peserta, $newImageName);
 
                     if ($stmt->execute()) {
-                        echo "<script> alert ('Data Berhasil Disimpan!'); document.location.href = 'data.php'; </script>";
+                        echo "<script> alert ('Data Berhasil Disimpan!'); document.location.href = 'adminplh.php'; </script>";
                     } else {
                         echo "Error: " . $stmt->error;
                     }

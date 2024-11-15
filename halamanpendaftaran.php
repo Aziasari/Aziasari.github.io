@@ -79,13 +79,13 @@ if (isset($_POST["submit"])) {
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav text-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Beranda</a>
+                        <a class="nav-link" href="index.php">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#daftar-bazar">Daftar Bazar</a>
+                        <a class="nav-link" href="index.php#daftar-bazar">Daftar Bazar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="halamantentangkami.html">Tentang Kami</a>
+                        <a class="nav-link" href="halamantentangkami.php">Tentang Kami</a>
                     </li>
                 </ul>
 
@@ -109,7 +109,7 @@ if (isset($_POST["submit"])) {
                             style="color: #6d2932; font-size: 25px"></i>
                     </a>
                     <!-- Icon User dengan gambar eksternal -->
-                    <a class="nav-link" href="login.html">
+                    <a class="nav-link" href="login.php">
                         <i
                             class="fas fa-circle-user"
                             style="color: #6d2932; font-size: 25px"></i>
@@ -274,9 +274,9 @@ if (isset($_POST["submit"])) {
                 <div class="footer-items general">
                     <h6>General</h6>
                     <ul>
-                        <li><a href="index.html">Beranda</a></li>
-                        <li><a href="index.html#daftar-bazar">Daftar Bazar</a></li>
-                        <li><a href="halamantentangkami.html">Tentang Kami</a></li>
+                        <li><a href="index.php">Beranda</a></li>
+                        <li><a href="index.php#daftar-bazar">Daftar Bazar</a></li>
+                        <li><a href="halamantentangkami.php">Tentang Kami</a></li>
                     </ul>
                 </div>
                 <div class="footer-items social-media">

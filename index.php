@@ -131,7 +131,7 @@ mysqli_close($conn);
                 </div>
             </div>
 
-            <a href="detailBazar.html">
+            <a href="detailBazar.php">
                 <button class="keuntungan-button" type="button">Daftar Sekarang</button>
             </a>
         </div>
