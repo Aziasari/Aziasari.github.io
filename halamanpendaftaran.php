@@ -167,7 +167,7 @@ if (isset($_POST["submit"])) {
                 <select class="form-select custom-input" id="jenis-umkm" name="jenis_umkm" required>
                     <option selected>Pilih Jenis UMKM</option>
                     <option value="Makanan">Makanan</option>
-                    <option value="Fashion">Fashion</option>
+                    <option value="Minuman">Minuman</option>
                     <option value="Kerajinan">Kerajinan</option>
                 </select>
             </div>
@@ -230,7 +230,7 @@ if (isset($_POST["submit"])) {
                         Silakan tunggu pesan konfirmasi dari WhatsApp atau email Anda.
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn text-white" data-bs-dismiss="modal" onclick="window.location.href='detailbazar.html';">OK</button>
+                        <button type="button" class="btn text-white" data-bs-dismiss="modal" onclick="window.location.href='detailbazar.php';">OK</button>
                     </div>
                 </div>
             </div>
