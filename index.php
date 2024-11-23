@@ -3,22 +3,19 @@ require 'koneksi.php';
 
 $rows1 = mysqli_query($conn, "SELECT * FROM bazar_akan_datang");
 
-// Ambil hanya data pertama
-$row1 = mysqli_fetch_assoc($rows1);
+if ($rows1 && mysqli_num_rows($rows1) > 0) {
+    $row1 = mysqli_fetch_assoc($rows1);
+    $max_length = 200;
 
-$max_length = 200; // Tentukan panjang maksimal deskripsi
+    $deskripsi_akandatang = $row1['deskripsi'] ?? '';
 
-$deskripsi_akandatang = $row1['deskripsi'];
-
-if (strlen($deskripsi_akandatang) > $max_length) {
-    // Potong deskripsi dan tambahkan elipsis
-    $deskripsi_akandatang = substr($deskripsi_akandatang, 0, $max_length) . '...';
+    if (strlen($deskripsi_akandatang) > $max_length) {
+        $deskripsi_akandatang = substr($deskripsi_akandatang, 0, $max_length) . '...';
+    }
+    echo "<p>$deskripsi_akandatang</p>";
+} else {
+    echo "<p>Deskripsi tidak tersedia.</p>";
 }
-
-// Menampilkan deskripsi yang telah dibatasi
-echo "<p>$deskripsi_akandatang</p>";
-
-
 $rows = mysqli_query($conn, "SELECT * FROM bazar_saat_ini");
 
 // Ambil hanya data pertama

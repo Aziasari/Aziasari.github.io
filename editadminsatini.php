@@ -215,7 +215,7 @@ $conn->close();
                 <div class="mb-3">
                     <label for="kontak_penyelenggara" class="form-label">Kontak Penyelenggara</label>
                     <input
-                        type="text"
+                        type="number"
                         class="form-control"
                         id="kontak_penyelenggara"
                         name="kontak_penyelenggara"
@@ -244,7 +244,7 @@ $conn->close();
                 <div class="mb-3">
                     <label for="waktu" class="form-label">Waktu Kegiatan</label>
                     <input
-                        type="text"
+                        type="time"
                         class="form-control"
                         id="waktu"
                         name="waktu"
@@ -261,7 +261,7 @@ $conn->close();
                         id="biaya"
                         name="biaya"
                         placeholder="Contoh: 100.000"
-                        value="<?php echo htmlspecialchars($bazar['biaya']); ?>"
+                        oninput="formatCurrency(event)"
                         required />
                 </div>
                 <!-- Deskripsi Kegiatan -->
@@ -349,5 +349,16 @@ $conn->close();
         }
 
         return true;
+    }
+
+    function formatCurrency(event) {
+        const input = event.target; // Elemen input yang dipanggil
+        let value = input.value.replace(/\./g, ""); // Hapus titik sebelumnya
+        if (!isNaN(value)) {
+            value = parseInt(value, 10).toLocaleString("id-ID"); // Format ke IDR (ribuan dengan titik)
+            input.value = value; // Perbarui nilai input
+        } else {
+            input.value = ""; // Hapus input jika tidak valid
+        }
     }
 </script>

@@ -173,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <a class="nav-link" href="https://facebook.com/login/">
                         <i class="fab fa-facebook" style="color: #6d2932; font-size: 25px"></i>
                     </a>
-                    <a class="nav-link" href="login.">php
+                    <a class="nav-link" href="login.php">
                         <i class="fas fa-circle-user" style="color: #6d2932; font-size: 25px"></i>
                     </a>
                 </div>

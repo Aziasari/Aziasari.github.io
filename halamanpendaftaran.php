@@ -149,7 +149,8 @@ if (isset($_POST["submit"])) {
                     class="form-control custom-input"
                     id="nama-pelaku"
                     placeholder="Masukkan Nama Anda"
-                    name="nama_pelaku_umkm" />
+                    name="nama_pelaku_umkm"
+                    required />
             </div>
 
             <div class="mb-4">
@@ -159,7 +160,8 @@ if (isset($_POST["submit"])) {
                     class="form-control custom-input"
                     id="nama-umkm"
                     placeholder="Masukkan Nama UMKM"
-                    name="nama_umkm" />
+                    name="nama_umkm"
+                    required />
             </div>
 
             <div class="mb-4">
@@ -175,11 +177,12 @@ if (isset($_POST["submit"])) {
             <div class="mb-4">
                 <label for="nomor-hp" class="form-label">Nomor Handphone</label>
                 <input
-                    type="text"
+                    type="number"
                     class="form-control custom-input"
                     id="nomor-hp"
                     placeholder="Masukkan Nomor Handphone"
-                    name="nomor_telpon" />
+                    name="nomor_telpon"
+                    required />
             </div>
 
             <div class="mb-4">
@@ -189,7 +192,10 @@ if (isset($_POST["submit"])) {
                     class="form-control custom-input"
                     id="email"
                     placeholder="Masukkan Email Anda"
-                    name="email_pelaku_umkm" />
+                    name="email_pelaku_umkm"
+                    required
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    title="Masukkan email dengan format yang valid (contoh: user@example.com)" />
             </div>
 
             <div class="mb-4">
@@ -199,7 +205,8 @@ if (isset($_POST["submit"])) {
                     class="form-control custom-input"
                     id="alamat"
                     placeholder="Masukkan Alamat Anda"
-                    name="alamat" />
+                    name="alamat"
+                    required />
             </div>
 
             <p class="text-center text-gray-500 mb-4" style="margin-top: 100px">
